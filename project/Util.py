@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 """
 This class contains utility methods used for making calculations in the Decision Tree.
@@ -41,10 +42,10 @@ def select_best_feature_by_information_gain(data):
     original_entropy = calculate_entropy(data=data)
 
     # Initialize total information gain to be used to compare information gain on different features
-    total_information_gain = 0
+    total_information_gain = -99
 
     # Initialize best feature variable to be used to choose the best feature after all iterations are done
-    best_feature = None
+    best_feature = -99
 
     # Iterate through each feature
     for index in range(num_features):
@@ -59,6 +60,7 @@ def select_best_feature_by_information_gain(data):
 
         # Initialize entropy value for specific feature
         feature_entropy = 0
+        entropy = 0
 
         # Iterate through each value in the different type of feature values
         for unique_value in feature_values:
@@ -66,8 +68,8 @@ def select_best_feature_by_information_gain(data):
             split_data = split_dataset_for_max_info_gain(data=data, feature_index=index, feature_value=unique_value)
             probability = len(split_data)/len(data)
             entropy = probability*calculate_entropy(split_data)
-            feature_entropy += entropy
 
+        feature_entropy += entropy
         # Calculate information gain for this feature
         calculated_info_gain = original_entropy - feature_entropy
 
@@ -77,7 +79,8 @@ def select_best_feature_by_information_gain(data):
             total_information_gain = calculated_info_gain
             best_feature = index
 
-    return best_feature
+    col = data.columns[best_feature]
+    return col
 
 
 # Split the given data set by the feature that has the maximum information gain
@@ -89,8 +92,8 @@ def split_dataset_for_max_info_gain(data, feature_index, feature_value):
     for index, row in data.iterrows():
         # If the value for a given feature matches, split the data at that feature
         if data.iloc[index, feature_index] == feature_value:
-            smaller_data_set = list(row[:feature_index])
-            smaller_data_set.extend(row[feature_index + 1:])
+            smaller_data_set = list(data.iloc[index, :feature_index])
+            smaller_data_set.extend(data.iloc[index, feature_index + 1:])
             split_data.append(smaller_data_set)
 
     return split_data
