@@ -3,6 +3,7 @@ from project import Abalone as a
 from project import Car as c
 from project import Segmentation as s
 from project import FiveFold as ff
+from project import Util as util
 import sys
 
 """
@@ -85,24 +86,24 @@ class Main:
         # Comment out for printing in console
         # sys.stdout = open("./Assignment4Output.txt", "w")
 
-        ##### Segmentation #####
-        seg_names = ["class", "cen col", "cen row", "pix count", "sld -5", "sld -2", "vedge mean", "vedge sd",
-                     "hedge mean", "hedge sd", "intensity mean", "rawred mean", "rawblue mean", "rawgreen mean",
-                     "exred mean", "exblue mean", "exgreen mean", "value mean", "sat mean", "hue mean"]
-        seg_data = self.run_seg(filename="data/segmentation.data", column_names=seg_names, sortby="class")
-
-        print("Segmentation Data")
-        print(seg_data)
-        print()
-
-        ##### Abalone #####
-        abalone_names = ["sex", "length", "diameter", "height", "whole weight", "shucked weight", "viscera weight",
-                         "shell weight", "rings"]
-        abalone_data = self.run_abalone(filename="data/abalone.data", column_names=abalone_names, sortby="rings")
-
-        print("Abalone Data")
-        print(abalone_data)
-        print()
+        # ##### Segmentation #####
+        # seg_names = ["class", "cen col", "cen row", "pix count", "sld -5", "sld -2", "vedge mean", "vedge sd",
+        #              "hedge mean", "hedge sd", "intensity mean", "rawred mean", "rawblue mean", "rawgreen mean",
+        #              "exred mean", "exblue mean", "exgreen mean", "value mean", "sat mean", "hue mean"]
+        # seg_data = self.run_seg(filename="data/segmentation.data", column_names=seg_names, sortby="class")
+        #
+        # print("Segmentation Data")
+        # print(seg_data)
+        # print()
+        #
+        # ##### Abalone #####
+        # abalone_names = ["sex", "length", "diameter", "height", "whole weight", "shucked weight", "viscera weight",
+        #                  "shell weight", "rings"]
+        # abalone_data = self.run_abalone(filename="data/abalone.data", column_names=abalone_names, sortby="rings")
+        #
+        # print("Abalone Data")
+        # print(abalone_data)
+        # print()
 
         ##### Car #####
         car_names = ["buying", "maint", "doors", "persons", "lug boot", "safety", "class"]
@@ -111,6 +112,13 @@ class Main:
         print("Car Data")
         print(car_data)
         print()
+        car_entropy = util.calculate_entropy(car_data)
+        print("Car Entropy")
+        print(car_entropy)
+
+        car_best_feature = util.select_best_feature_by_information_gain(car_data)
+        print("Best Car Feature")
+        print(car_best_feature)
 
 
 if __name__ == "__main__":
