@@ -1,5 +1,4 @@
 import pandas as pd
-from project import SetupData as sd
 
 """
     This class is used to setup the Car data that will be used for processing.

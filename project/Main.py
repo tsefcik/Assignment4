@@ -39,6 +39,11 @@ class Main:
         seg4.drop(columns='index', axis=1, inplace=True)
         seg5.drop(columns='index', axis=1, inplace=True)
 
+        """
+            This next section will run 5 different variations with the 5 different data sets that were made above using
+            five fold cross validation against the validation set specified in the project.  It does a 90/10 split on 
+            the data, where 90% is used for cross validation, and 10% is used for the validation set.
+        """
         tree1 = dt.DecisionTree()
         tree_node1 = tree1.create_decision_tree(data=seg1, features_list=seg_names)
         accuracy1 = tree1.run_test(seg_validation_data, tree_node1)
@@ -124,6 +129,11 @@ class Main:
         abalone1, abalone2, abalone3, abalone4, abalone5 = five_fold.five_fold_sort_class(data=abalone_data,
                                                                                           sortby=sortby)
 
+        """
+            This next section will run 5 different variations with the 5 different data sets that were made above using
+            five fold cross validation against the validation set specified in the project.  It does a 90/10 split on 
+            the data, where 90% is used for cross validation, and 10% is used for the validation set.
+        """
         tree1 = dt.DecisionTree()
         tree_node1 = tree1.create_decision_tree(data=abalone1, features_list=abalone_names)
         accuracy1 = tree1.run_test(abalone_validation_data, tree_node1)
@@ -212,6 +222,11 @@ class Main:
         car4.drop(columns='index', axis=1, inplace=True)
         car5.drop(columns='index', axis=1, inplace=True)
 
+        """
+            This next section will run 5 different variations with the 5 different data sets that were made above using
+            five fold cross validation against the validation set specified in the project.  It does a 90/10 split on 
+            the data, where 90% is used for cross validation, and 10% is used for the validation set.
+        """
         tree1 = dt.DecisionTree()
         tree_node1 = tree1.create_decision_tree(data=car1, features_list=car_names)
         accuracy1 = tree1.run_test(car_validation_data, tree_node1)
@@ -275,11 +290,11 @@ class Main:
         # Comment out for printing in console
         # sys.stdout = open("./Assignment4Output.txt", "w")
 
-        # ##### Car #####
-        # self.run_car(filename="data/car.data", sortby="class")
-        #
-        # ##### Segmentation #####
-        # self.run_seg(filename="data/segmentation.data", sortby="class")
+        ##### Car #####
+        self.run_car(filename="data/car.data", sortby="class")
+
+        ##### Segmentation #####
+        self.run_seg(filename="data/segmentation.data", sortby="class")
 
         ##### Abalone #####
         self.run_abalone(filename="data/abalone.data", sortby="class")

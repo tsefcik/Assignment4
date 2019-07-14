@@ -2,4 +2,4 @@ Tyler Sefcik
 
 Assignment #4
 
-See documentation in /project folder for more details.
+See documentation in the Assignment4 folder for more details.
