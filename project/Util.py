@@ -22,7 +22,7 @@ def calculate_entropy(data):
 
         if single_label not in label_dict.keys():
             label_dict[single_label] = 0
-        label_dict[single_label] += 1
+        label_dict[single_label] = label_dict[single_label] + 1
 
     # For every key(label) in the label dictionary, get the probability, then use that to further calculate the total
     # entropy
@@ -37,6 +37,8 @@ def calculate_entropy(data):
 def select_best_feature_by_information_gain(data):
     # Find number of features in for the given data set
     num_features = data.shape[1] - 1
+    # Feature names
+    feature_names = list(data.columns[0:num_features])
 
     # Calculate the original entropy of the original data set
     original_entropy = calculate_entropy(data=data)
@@ -65,11 +67,12 @@ def select_best_feature_by_information_gain(data):
         # Iterate through each value in the different type of feature values
         for unique_value in feature_values:
             # Split the data set based on the feature with the best information gain
-            split_data = split_dataset_for_max_info_gain(data=data, feature_index=index, feature_value=unique_value)
+            split_data = split_dataset_for_max_info_gain(data=data, feature_index=index, feature_value=unique_value,
+                                                         feature_list=feature_names)
             probability = len(split_data)/len(data)
             entropy = probability*calculate_entropy(split_data)
+            feature_entropy += entropy
 
-        feature_entropy += entropy
         # Calculate information gain for this feature
         calculated_info_gain = original_entropy - feature_entropy
 
@@ -84,7 +87,7 @@ def select_best_feature_by_information_gain(data):
 
 
 # Split the given data set by the feature that has the maximum information gain
-def split_dataset_for_max_info_gain(data, feature_index, feature_value):
+def split_dataset_for_max_info_gain(data, feature_index, feature_value, feature_list):
     # List to store the split data that we come up with
     split_data = []
 
@@ -96,4 +99,23 @@ def split_dataset_for_max_info_gain(data, feature_index, feature_value):
             smaller_data_set.extend(data.iloc[index, feature_index + 1:])
             split_data.append(smaller_data_set)
 
-    return split_data
+    split_data_df = pd.DataFrame(data=split_data, columns=feature_list)
+    return split_data_df
+
+
+# Return most common class in data set
+def most_common_class(list_of_classes):
+    # Dict to keep track of different class counts
+    class_counts = {}
+    # Iterate over list of classes, keep track of the number for each class
+    for value in list_of_classes:
+        if value not in class_counts.keys():
+            class_counts[value] = 0
+        class_counts[value] = class_counts[value] + 1
+
+    # Sort dict by highest to lowest
+    sorted_class_counts = sorted(class_counts.items(), key=lambda item: item[1], reverse=True)
+
+    # Return most common class
+    return sorted_class_counts[0][0]
+

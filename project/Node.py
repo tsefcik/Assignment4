@@ -1,13 +1,13 @@
 """
-This class represents a node in the decision tree.  It holds a value, a reference to the next node, and a reference
-to it's chile node.
+This class represents a node in the decision tree.  It holds data, a feature it is connected to, and whether it is a
+leaf node or not.  It also creates an empty dict for children nodes.
 """
 
 
 class Node:
-    def __init__(self, data, feature_list, target_class):
+    def __init__(self, data, feature, leaf_node):
         self.data = data
-        self.feature_list = feature_list
-        self.target_class = target_class
-        self.child = None
+        self.feature = feature
+        self.leaf_node = leaf_node
+        self.children = {}
 

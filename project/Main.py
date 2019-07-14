@@ -4,6 +4,7 @@ from project import Car as c
 from project import Segmentation as s
 from project import FiveFold as ff
 from project import Util as util
+from project import DecisionTree as dt
 import sys
 
 """
@@ -70,9 +71,9 @@ class Main:
         car_validation_data.reset_index(inplace=True)
         car_data_rest.reset_index(inplace=True)
 
-        print(car_validation_data)
-        print()
-        print(car_data_rest)
+        # print(car_validation_data)
+        # print()
+        # print(car_data_rest)
 
         # Setup five fold cross validation
         five_fold = ff.FiveFold()
@@ -98,8 +99,8 @@ class Main:
         #
         # ##### Abalone #####
         # abalone_names = ["sex", "length", "diameter", "height", "whole weight", "shucked weight", "viscera weight",
-        #                  "shell weight", "rings"]
-        # abalone_data = self.run_abalone(filename="data/abalone.data", column_names=abalone_names, sortby="rings")
+        #                  "shell weight", "class"]
+        # abalone_data = self.run_abalone(filename="data/abalone.data", column_names=abalone_names, sortby="class")
         #
         # print("Abalone Data")
         # print(abalone_data)
@@ -112,13 +113,11 @@ class Main:
         print("Car Data")
         print(car_data)
         print()
-        car_entropy = util.calculate_entropy(car_data)
-        print("Car Entropy")
-        print(car_entropy)
 
-        car_best_feature = util.select_best_feature_by_information_gain(car_data)
-        print("Best Car Feature")
-        print(car_best_feature)
+        tree = dt.DecisionTree()
+        tree_node = tree.create_decision_tree(data=car_data, features_list=car_names)
+        # tree_as_string = tree.get_tree_as_string(tree_node)
+        # print(tree_as_string)
 
 
 if __name__ == "__main__":
